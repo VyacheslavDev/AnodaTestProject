@@ -10,18 +10,30 @@ import com.safviach.anodatestproject.ui.adapter.FeedAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var mFeedAdapter: FeedAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        initFeed()
+    }
 
+    override fun onStart() {
+        super.onStart()
+        fillAdapter()
+    }
+
+    private fun fillAdapter() {
+        mFeedAdapter.addItems(getTestFeeds())
+    }
+
+    private fun initFeed() {
         val linearLayoutManager = LinearLayoutManager(this)
         rv_feed.layoutManager = linearLayoutManager
-
-        val feedAdapter = FeedAdapter()
-        rv_feed.adapter = feedAdapter
-        feedAdapter.addItems(getTestFeeds())
+        mFeedAdapter = FeedAdapter()
+        rv_feed.adapter = mFeedAdapter
     }
+
 
     private fun getTestFeeds(): List<Feed> {
         val feeds: ArrayList<Feed> = arrayListOf()
